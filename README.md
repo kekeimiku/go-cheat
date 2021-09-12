@@ -2,9 +2,7 @@
 
 ### go-cheat
 
-users friendly linux  
-
-hacking library
+users friendly linux  hacking library
 
 ```
 go get -u github.com/kekeimiku/cheat
