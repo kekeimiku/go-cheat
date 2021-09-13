@@ -4,7 +4,7 @@
 
 users friendly linux  hacking library
 
-[![Build & Test](https://github.com/kekeimiku/go-cheat/actions/workflows/buiildandtest.yml/badge.svg)](https://github.com/kekeimiku/go-cheat/actions/workflows/buiildandtest.yml)
+[![Build & Test](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml/badge.svg)](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml)
 
 ```
 go get -u github.com/kekeimiku/cheat
