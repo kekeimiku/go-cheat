@@ -1,9 +1,8 @@
-<img align="left" width="100" src="./assets/miku.png">
+<img align="left" width="120" src="./assets/miku.png">
 
 ### go-cheat
 
-users friendly linux  hacking library
-
+users friendly linux  hacking library   
 [![Build & Test](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml/badge.svg)](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml)
 
 ```
