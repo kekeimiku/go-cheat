@@ -26,6 +26,21 @@ func FindPidByName(name string) int {
 	return -1
 }
 
+//FindPidByName find the pids of all processes with the same name and return an array.
+//If the length of the returned array is 0, it is not found.
+func FindPidByNameGlob(name string) []int {
+	var p []int
+	dir, _ := filepath.Glob("/proc/*")
+	for _, f := range dir {
+		r, _ := os.ReadFile(f + "/comm")
+		if string(r) == name+"\n" {
+			pid, _ := strconv.Atoi(string(f[6:]))
+			p = append(p, pid)
+		}
+	}
+	return p
+}
+
 //Need root privileges
 //WriteProcessMemory provides the function of write data to the process.
 func WriteProcessMemory(pid int, addr uint64, data []byte) error {
