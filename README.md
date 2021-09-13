@@ -2,14 +2,15 @@
 
 ### go-cheat
 
-users friendly linux  hacking library   
+### users friendly linux  hacking library   
 [![Build & Test](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml/badge.svg)](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml)
 
+### Install
 ```
 go get -u github.com/kekeimiku/cheat
 ```
 
-* ！！！ Not reach usable state
+## ！！！ Not reach usable state
 
 The current function is still very basic
 
