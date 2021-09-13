@@ -5,12 +5,12 @@
 ### users friendly linux  hacking library   
 [![Build & Test](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml/badge.svg)](https://github.com/kekeimiku/go-cheat/actions/workflows/test.yml)
 
-### Install
+## ！！！ Not reach usable state
+
+## Install
 ```
 go get -u github.com/kekeimiku/cheat
 ```
-
-## ！！！ Not reach usable state
 
 The current function is still very basic
 
