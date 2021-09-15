@@ -80,3 +80,31 @@ func KillProcessByPid(pid int) error {
 	}
 	return err
 }
+
+func WriteProcessMemory2(pid int, offset int64, data []byte) error {
+
+	file, err := os.OpenFile("/proc/"+strconv.Itoa(pid)+"/mem", os.O_RDWR, 0)
+
+	if err != nil {
+		return err
+	}
+	/* var a string = "56271babc2a0"
+	   b := fmt.Sprintf("%p", &a)
+	   adr, e := strconv.ParseInt(b, 0, 64)
+
+	   fmt.Println(adr, e) */
+	_, err = file.Seek(offset, 1)
+
+	if err != nil {
+		return err
+	}
+	//fmt.Println(ret, err)
+	_, err = file.Write(data)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	return nil
+}
