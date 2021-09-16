@@ -33,3 +33,15 @@ func TestReadProcessMemory(t *testing.T) {
 		t.Error(d, err)
 	}
 }
+
+/* func TestReadProcessMemory1(t *testing.T) {
+	var a string = "hhhhhhton"
+	b := fmt.Sprintf("%p", &a)
+	c, _ := strconv.ParseUint(b, 0, 64)
+	d, err := ReadProcessMemory(os.Getpid(), c, 1)
+
+	if d != &[]byte{1} && err != nil {
+		t.Error(d, err)
+	}
+}
+*/
