@@ -4,45 +4,75 @@
 package cheat
 
 import (
-	"log"
-	"os"
+	"fmt"
 	"testing"
 )
 
-func readNextBytes(file *os.File, number int) []byte {
-	bytes := make([]byte, number)
-
-	_, err := file.Read(bytes)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return bytes
-}
-
 func TestProcMaps(t *testing.T) {
 
-	/* maps, _ := ProcMaps("/proc/1156/maps")
+	/* m, err := ProcMaps("/proc/34689/maps")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, v := range m {
+		if v.Pathname == "[heap]" {
+			fmt.Println(v)
+		}
+	} */
+	//ReadCHeap("/proc/34689/maps")
+	a, e := ReadMem("", "/proc/34689/maps")
+	if e != nil {
+		fmt.Println(e)
+	}
+	for _, v := range a {
+
+		fmt.Printf("%x-%x %v %v %v\n", v.StartAddr, v.EndAddr, v.Perms, v.Offset, v.Pathname)
+	}
+
+	/* maps, err := ProcMaps("/proc/34689/maps")
+	if err != nil {
+		fmt.Println(err)
+	}
+	ma := []*ProcMap{}
 	for _, v := range maps {
+		if v.Perms.Read == true && v.Perms.Write == true && len(v.Pathname) < 42 {
+			ma = append(ma, v)
+		}
+	}
+
+	for _, v := range ma {
 		fmt.Println(v)
+	} */
+
+	/* maps, _ := ProcMaps("/proc/30604/maps")
+	for _, v := range maps {
+		fmt.Println(v.Pathname)
 	} */
 
 	/* err := WriteProcessMemory2(26397, 94725967954592, []byte("okokok"))
 	t.Error(err) */
 
 	/* 	fmt.Println(SearchProcessMemory(3252, []byte("hhhhhhton"))) */
-	/* 	file, err := os.Open("/proc/" + strconv.Itoa(1156) + "/mem")
-	   	if err != nil {
-	   		panic(err)
-	   	}
 
-	   	file.Seek(94375102029824, 1)
+	//buf := make([]byte, 135168)
 
-	   	a, _ := io.ReadAll(file)
+	//io.ReadAtLeast(file, buf, 135168)
 
-	   	bytes.Index(a, []byte("ooooooton"))
-	   	t.Error(bytes.Index(a, []byte("ooooooton")))
-	*/
+	/* file, err := os.Open("/proc/" + strconv.Itoa(21475) + "/mem")
+	if err != nil {
+		panic(err)
+	}
+
+	file.Seek(824633720832, 1)
+
+	a, _ := io.ReadAll(file)
+
+	t.Error(bytes.Index(a, []byte("Holberton")))
+
+	t.Error(len(a))
+
+	defer file.Close() */
+
 	/* reader := bufio.NewReader(io.ReadSeeker) */
 	/* t.Error(e)
 	t.Error(bytes.Index(data, []byte("ooooooton"))) */
@@ -94,7 +124,8 @@ func TestProcMaps(t *testing.T) {
 	//t.Error(n, err1)
 }
 
-func TestSearchProcessMemory(t *testing.T) {
-	c, e := SearchProcessMemory(1156, 94375102029824, []byte("ooooooton"))
+/* func TestSearchProcessMemory(t *testing.T) {
+	c, e := SearchProcessMemory(21745, 94375102029824, []byte("ooooooton"))
 	t.Error(c, e)
 }
+*/

@@ -19,7 +19,7 @@ type ProcMapPermissions struct {
 	// mapping has the [X]ecutable flag set
 	Execute bool
 	// mapping has the [S]hared flag set
-	Shared bool
+	//Shared bool
 	// mapping is marked as [P]rivate (copy on write)
 	Private bool
 }
@@ -111,8 +111,8 @@ func parsePermissions(s string) (*ProcMapPermissions, error) {
 			perms.Execute = true
 		case 'p':
 			perms.Private = true
-		case 's':
-			perms.Shared = true
+			//  case 's':
+			//	perms.Shared = true
 		}
 	}
 
