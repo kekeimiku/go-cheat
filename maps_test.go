@@ -20,7 +20,9 @@ func TestProcMaps(t *testing.T) {
 		}
 	} */
 	//ReadCHeap("/proc/34689/maps")
-	a, e := ReadMem("", "/proc/34689/maps")
+
+	a, e := ReadProcessMemory2("A_ANONMYOUS", 1912)
+
 	if e != nil {
 		fmt.Println(e)
 	}

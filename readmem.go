@@ -1,8 +1,13 @@
 package cheat
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
-func ReadMem(t, path string) ([]*ProcMap, error) {
+func ReadProcessMemory2(t string, pid int) ([]*ProcMap, error) {
+
+	path := "/proc/" + strconv.Itoa(pid) + "/maps"
 
 	switch {
 	case t == "ALL":
@@ -32,7 +37,7 @@ func ReadMem(t, path string) ([]*ProcMap, error) {
 	case t == "CODE_APP":
 		return ReadCodeApp(path)
 	default:
-		return nil, errors.New("No type selected or invalid type")
+		return nil, errors.New("no type selected or invalid type")
 
 	}
 }
@@ -45,7 +50,7 @@ func ReadBad(path string) ([]*ProcMap, error) {
 	m := []*ProcMap{}
 
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "kgsl-3d0" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "kgsl-3d0" {
 			m = append(m, v)
 		}
 	}
@@ -145,7 +150,7 @@ func ReadCAnonmyous(path string) ([]*ProcMap, error) {
 
 	m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && len(v.Pathname) < 42 {
+		if v.Perms.Read && v.Perms.Write && len(v.Pathname) < 42 {
 			m = append(m, v)
 		}
 	}
