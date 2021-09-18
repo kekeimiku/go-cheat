@@ -4,7 +4,6 @@
 package cheat
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -21,7 +20,7 @@ func TestProcMaps(t *testing.T) {
 	} */
 	//ReadCHeap("/proc/34689/maps")
 
-	a, e := ReadProcessMemory2("A_ANONMYOUS", 1912)
+	/* a, e := ReadProcessMemory2("A_ANONMYOUS", 1912)
 
 	if e != nil {
 		fmt.Println(e)
@@ -29,7 +28,10 @@ func TestProcMaps(t *testing.T) {
 	for _, v := range a {
 
 		fmt.Printf("%x-%x %v %v %v\n", v.StartAddr, v.EndAddr, v.Perms, v.Offset, v.Pathname)
-	}
+	} */
+
+	var app = App{pid: 4989}
+	app.ReadProcessMemory("A_ANONMYOUS").ReadProcessMemory("C_HEAP").Print()
 
 	/* maps, err := ProcMaps("/proc/34689/maps")
 	if err != nil {

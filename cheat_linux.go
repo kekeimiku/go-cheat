@@ -16,16 +16,16 @@ import (
 
 //FindPidByName return pid based on process name.
 //If the return value is -1, it is a failure.
-func FindPidByName(name string) int {
+func (a *App) FindPidByName() *App {
 	dir, _ := filepath.Glob("/proc/*")
 	for _, f := range dir {
 		r, _ := os.ReadFile(f + "/comm")
-		if string(r) == name+"\n" {
+		if string(r) == a.name+"\n" {
 			pid, _ := strconv.Atoi(string(f[6:]))
-			return pid
+			a.pid = pid
 		}
 	}
-	return -1
+	return a
 }
 
 //FindPidByName find the pids of all processes with the same name and return an array.

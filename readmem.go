@@ -1,45 +1,59 @@
 package cheat
 
 import (
-	"errors"
+	"fmt"
 	"strconv"
 )
 
-func ReadProcessMemory2(t string, pid int) ([]*ProcMap, error) {
+var m []*ProcMap
 
-	path := "/proc/" + strconv.Itoa(pid) + "/maps"
+func (a *App) Clear() *App {
+	m = nil
+	return a
+}
+
+func (a *App) Print() *App {
+	for _, v := range m {
+		fmt.Printf("%x-%x %v %v %v\n", v.StartAddr, v.EndAddr, v.Perms, v.Offset, v.Pathname)
+	}
+	return a
+}
+
+func (a *App) ReadProcessMemory(t string) *App {
+
+	path := "/proc/" + strconv.Itoa(a.pid) + "/maps"
 
 	switch {
 	case t == "ALL":
-		return ProcMaps(path)
+		ProcMaps(path)
 	case t == "B_BAD":
-		return ReadBad(path)
+		ReadBad(path)
 	case t == "V":
-		return ReadV(path)
+		ReadV(path)
 	case t == "C_ALLOC":
-		return ReadCAlloc(path)
+		ReadCAlloc(path)
 	case t == "C_BSS":
-		return ReadCBss(path)
+		ReadCBss(path)
 	case t == "C_DATA":
-		return ReadCData(path)
+		ReadCData(path)
 	case t == "C_HEAP":
-		return ReadCHeap(path)
+		ReadCHeap(path)
 	case t == "JAVA_HEAP":
-		return ReadJavaHeap(path)
+		ReadJavaHeap(path)
 	case t == "A_ANONMYOUS":
-		return ReadCAnonmyous(path)
+		ReadCAnonmyous(path)
 	case t == "CODE_SYSTEM":
-		return ReadCodeSystem(path)
+		ReadCodeSystem(path)
 	case t == "STACK":
-		return ReadStack(path)
+		ReadStack(path)
 	case t == "ASHMEM":
-		return ReadAshmem(path)
+		ReadAshmem(path)
 	case t == "CODE_APP":
-		return ReadCodeApp(path)
+		ReadCodeApp(path)
 	default:
-		return nil, errors.New("no type selected or invalid type")
-
+		fmt.Println("no type selected or invalid type")
 	}
+	return a
 }
 
 func ReadBad(path string) ([]*ProcMap, error) {
@@ -47,7 +61,6 @@ func ReadBad(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
 
 	for _, v := range maps {
 		if v.Perms.Read && v.Perms.Write && v.Pathname == "kgsl-3d0" {
@@ -63,9 +76,9 @@ func ReadV(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	////m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "/dev/kgsl-3d0" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "/dev/kgsl-3d0" {
 			m = append(m, v)
 		}
 	}
@@ -77,9 +90,9 @@ func ReadCAlloc(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	////m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "[anon:libc_malloc]" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "[anon:libc_malloc]" {
 			m = append(m, v)
 		}
 	}
@@ -91,9 +104,9 @@ func ReadCBss(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "[anon:.bss]" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "[anon:.bss]" {
 			m = append(m, v)
 		}
 	}
@@ -105,9 +118,9 @@ func ReadCData(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "/data/app/" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "/data/app/" {
 			m = append(m, v)
 		}
 	}
@@ -119,9 +132,9 @@ func ReadCHeap(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "[heap]" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "[heap]" {
 			m = append(m, v)
 		}
 	}
@@ -133,9 +146,9 @@ func ReadJavaHeap(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "/dev/ashmem/" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "/dev/ashmem/" {
 			m = append(m, v)
 		}
 	}
@@ -148,7 +161,7 @@ func ReadCAnonmyous(path string) ([]*ProcMap, error) {
 		return nil, err
 	}
 
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
 		if v.Perms.Read && v.Perms.Write && len(v.Pathname) < 42 {
 			m = append(m, v)
@@ -162,9 +175,9 @@ func ReadCodeSystem(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "/system" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "/system" {
 			m = append(m, v)
 		}
 	}
@@ -176,10 +189,10 @@ func ReadStack(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "[stack]" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "[stack]" {
 			m = append(m, v)
 		}
 	}
@@ -191,9 +204,9 @@ func ReadOther(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "[anon:thread signal stack]" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "[anon:thread signal stack]" {
 			m = append(m, v)
 		}
 	}
@@ -205,10 +218,10 @@ func ReadAshmem(path string) ([]*ProcMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
 
-		if v.Perms.Read == true && v.Perms.Write == true && v.Pathname == "/dev/ashmem/" || v.Pathname == "dalvik" {
+		if v.Perms.Read && v.Perms.Write && v.Pathname == "/dev/ashmem/" || v.Pathname == "dalvik" {
 			m = append(m, v)
 		}
 	}
@@ -221,10 +234,10 @@ func ReadCodeApp(path string) ([]*ProcMap, error) {
 		return nil, err
 	}
 
-	m := []*ProcMap{}
+	//m := []*ProcMap{}
 	for _, v := range maps {
 
-		if v.Perms.Read == true && v.Perms.Execute == true && v.Perms.Private == true && v.Pathname == "/data/app/" {
+		if v.Perms.Read && v.Perms.Execute && v.Perms.Private && v.Pathname == "/data/app/" {
 			m = append(m, v)
 		}
 	}
