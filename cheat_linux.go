@@ -120,3 +120,20 @@ func SearchProcessMemory(pid int, offset int64, data []byte) (o int, err error) 
 
 	return bytes.Index(b, data), nil
 }
+
+func ReadProcessMemory2(pid int, offset int64, size int64) (data []byte, err error) {
+
+	file, err := os.Open("/proc/" + strconv.Itoa(pid) + "/mem")
+	if err != nil {
+		return nil, err
+	}
+
+	file.Seek(offset, 1)
+
+	bs := make([]byte, size)
+	file.Read(bs)
+
+	defer file.Close()
+
+	return bs, nil
+}
